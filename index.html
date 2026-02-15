@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html lang="uz">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Ramazon 2026</title>
+<link rel="manifest" href="manifest.json">
+<meta name="theme-color" content="#00c853">
+
+
+<style>
+body{
+margin:0;
+font-family:Arial;
+background:linear-gradient(135deg,#0f2027,#203a43,#2c5364);
+color:white;
+text-align:center;
+display:flex;
+flex-direction:column;
+align-items:center;
+min-height:100vh;
+}
+
+header{
+padding:20px;
+}
+
+.card{
+background:rgba(255,255,255,0.1);
+padding:20px;
+margin:15px;
+width:90%;
+max-width:400px;
+border-radius:15px;
+box-shadow:0 0 15px rgba(0,0,0,0.4);
+}
+
+.time{
+font-size:24px;
+margin:10px 0;
+font-weight:bold;
+color:#ffd700;
+}
+
+.counter{
+font-size:40px;
+margin:20px 0;
+}
+
+.circle-btn{
+width:120px;
+height:120px;
+border-radius:50%;
+border:none;
+font-size:28px;
+background:#00c853;
+color:white;
+cursor:pointer;
+box-shadow:0 6px 15px rgba(0,0,0,0.5);
+transition:0.2s;
+}
+
+.circle-btn:active, .circle-btn:hover{
+transform:scale(0.95);
+background:#00e676;
+}
+
+.reset{
+margin-top:15px;
+padding:8px 20px;
+border:none;
+border-radius:8px;
+background:#ff5252;
+color:white;
+cursor:pointer;
+}
+
+footer{
+margin-top:20px;
+padding:15px;
+font-size:14px;
+opacity:0.8;
+}
+</style>
+</head>
+<body>
+
+<header>
+<h1>🌙 Ramazon 2026</h1>
+</header>
+
+<div class="card">
+<h2>📅 Bugungi vaqt</h2>
+<div id="todayDate"></div>
+<div class="time" id="saharlik"></div>
+<div class="time" id="saharlikDuo">🌅 Saharlik duosi: "Allahumma inni sa’aluka shukran ni’matika"</div>
+<div class="time" id="iftorlik"></div>
+<div class="time" id="iftorlikDuo">🌇 Iftorlik duosi: "Allahumma inni laka sumtu wa bika aamantu"</div>
+</div>
+
+<div class="card">
+<h2>⏳ Ogʻiz ochishga qolgan vaqt</h2>
+<div class="time" id="timeLeft"></div>
+</div>
+
+<div class="card">
+<h2>📿 Tasbeh</h2>
+<div class="counter" id="counter">0</div>
+<button class="circle-btn" onclick="increase()">+1</button>
+<br>
+<button class="reset" onclick="resetCounter()">Reset</button>
+</div>
+
+<footer>
+© 2026 Ramazon Ilovasi | Ilhomjon
+</footer>
+
+<script>
+// 2026 RAMAZON VAQTLARI
+const ramazon = [
+["15-fev","05:44","17:56"],
+["16-fev","05:42","17:57"],
+["21-fev","05:41","17:58"],
+["22-fev","05:40","17:59"],
+["23-fev","05:38","18:00"],
+["24-fev","05:37","18:01"],
+["25-fev","05:36","18:02"],
+["26-fev","05:34","18:04"],
+["27-fev","05:33","18:05"],
+["28-fev","05:31","18:06"],
+["1-mart","05:30","18:07"],
+["2-mart","05:28","18:08"],
+["3-mart","05:27","18:09"],
+["4-mart","05:25","18:10"],
+["5-mart","05:24","18:11"],
+["6-mart","05:22","18:13"],
+["7-mart","05:21","18:14"],
+["8-mart","05:19","18:15"],
+["9-mart","05:17","18:16"],
+["10-mart","05:16","18:17"],
+["11-mart","05:14","18:18"],
+["12-mart","05:13","18:19"],
+["13-mart","05:11","18:20"],
+["14-mart","05:09","18:21"],
+["15-mart","05:08","18:22"],
+["16-mart","05:06","18:23"],
+["17-mart","05:04","18:24"],
+["18-mart","05:03","18:25"],
+["19-mart","05:01","18:27"]
+];
+
+// BUGUNGI KUNNI ANIQLASH
+function updateRamazon(){
+    let today = new Date();
+    let start = new Date("2026-02-15");
+    let diff = Math.floor((today - start)/(1000*60*60*24));
+
+    if(diff>=0 && diff<ramazon.length){
+        document.getElementById("todayDate").innerHTML = ramazon[diff][0];
+        document.getElementById("saharlik").innerHTML = "🌅 Saharlik: " + ramazon[diff][1];
+        document.getElementById("iftorlik").innerHTML = "🌇 Iftorlik: " + ramazon[diff][2];
+    } else {
+        document.getElementById("todayDate").innerHTML = "Ramazon vaqti emas";
+        document.getElementById("saharlik").innerHTML = "";
+        document.getElementById("iftorlik").innerHTML = "";
+    }
+}
+updateRamazon();
+setInterval(updateRamazon, 60000);
+
+// TASBEH
+let count = localStorage.getItem("tasbeh") ? parseInt(localStorage.getItem("tasbeh")) : 0;
+document.getElementById("counter").innerHTML = count;
+
+function increase(){
+    count++;
+    document.getElementById("counter").innerHTML = count;
+    localStorage.setItem("tasbeh", count);
+}
+
+function resetCounter(){
+    count = 0;
+    document.getElementById("counter").innerHTML = count;
+    localStorage.setItem("tasbeh", count);
+}
+
+// OG'IZ OCHISHGA QOLGAN VAQT
+function updateTimer(){
+    let now = new Date();
+    let start = new Date("2026-02-15");
+    let diff = Math.floor((now - start)/(1000*60*60*24));
+
+    if(diff>=0 && diff<ramazon.length){
+        let saharlikTime = ramazon[diff][1].split(":");
+        let iftorTime = ramazon[diff][2].split(":");
+
+        let saharlikDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), parseInt(saharlikTime[0]), parseInt(saharlikTime[1]));
+        let iftorDate = new Date(now.getFullYear(), now.getMonth(), now.getDate(), parseInt(iftorTime[0]), parseInt(iftorTime[1]));
+
+        let nextTime = now < saharlikDate ? saharlikDate : (now < iftorDate ? iftorDate : null);
+
+        if(nextTime){
+            let diffMs = nextTime - now;
+            let h = Math.floor(diffMs / (1000*60*60));
+            let m = Math.floor((diffMs % (1000*60*60)) / (1000*60));
+            let s = Math.floor((diffMs % (1000*60)) / 1000);
+            document.getElementById("timeLeft").innerHTML = `Ogʻiz ochishga qolgan vaqt: ${h} soat ${m} daqiqa ${s} soniya`;
+        } else {
+            document.getElementById("timeLeft").innerHTML = "Ogʻiz ochish vaqti keldi!";
+        }
+    } else {
+        document.getElementById("timeLeft").innerHTML = "";
+    }
+}
+updateTimer();
+setInterval(updateTimer, 1000);
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('sw.js').then(function(){
+    console.log('Service Worker registered!');
+  });
+}
+
+</script>
+
+</body>
+</html>
